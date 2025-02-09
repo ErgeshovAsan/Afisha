@@ -7,7 +7,7 @@ from rest_framework import status
 
 @api_view(http_method_names=['GET'])
 def director_list_api_view(request):
-    director = Director.objects.all()
+    director = Director.objects.select_related('movies_count').all()
     data = DirectorSerializers(instance=director, many=True).data
     return Response(data=data, status=200)
 
@@ -28,7 +28,7 @@ def movie_list_api_view(request):
 
 @api_view(http_method_names=['GET'])
 def movie_review_list_api_view(request):
-    movie = Movie.objects.all()
+    movie = Movie.objects.prefetch_related('reviews', 'director').all()
     data = MovieSerializers(instance=movie, many=True).data
     return Response(data=data, status=200)
 
@@ -43,7 +43,7 @@ def movie_detail_api_view(request, id):
 
 @api_view(http_method_names=['GET'])
 def review_list_api_view(request):
-    review = Review.objects.all()
+    review = Review.objects.select_related('movie').all()
     data = ReviewSerializers(instance=review, many=True).data
     return Response(data=data, status=200)
 
