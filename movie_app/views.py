@@ -22,6 +22,12 @@ def director_detail_api_view(request, id):
 
 @api_view(http_method_names=['GET'])
 def movie_list_api_view(request):
+    movie = Movie.objects.filter('id, title, description, duration, director')
+    data = MovieSerializers(instance=movie, many=True).data
+    return Response(data=data, status=200)
+
+@api_view(http_method_names=['GET'])
+def movie_review_list_api_view(request):
     movie = Movie.objects.all()
     data = MovieSerializers(instance=movie, many=True).data
     return Response(data=data, status=200)
