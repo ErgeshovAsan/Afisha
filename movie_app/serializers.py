@@ -11,6 +11,12 @@ class DirectorSerializers(serializers.ModelSerializer):
 class MovieSerializers(serializers.ModelSerializer):
     class Meta:
         model = Movie
+        fields = 'id title description duration director'.split()
+        depth = 1
+
+class MovieReviewSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
         fields = 'id title description duration director reviews rating'.split()
         depth = 1
 
